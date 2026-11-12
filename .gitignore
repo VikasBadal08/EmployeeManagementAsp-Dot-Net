@@ -1,0 +1,50 @@
+
+# Build folders
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# User-specific files
+*.user
+*.sln.iml
+
+# Logs
+*.log
+
+# Test results
+TestResults/
+
+# NuGet
+packages/
+
+# Environment and secret files
+.env
+.env.*
+!.env.example
+
+# ASP.NET Core development settings
+appsettings.Development.json
+
+# User secrets
+secrets.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Publish output
+publish/
+artifacts/
+appsettings.json
