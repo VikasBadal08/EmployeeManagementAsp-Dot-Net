@@ -19,11 +19,6 @@ public class AuthRepository : IAuthRepository
         return await context.users.AnyAsync(u => u.Email == email);
     }
 
-    public async Task<bool> AdminExistsAsync()
-    {
-        return await context.users
-            .AnyAsync(u => u.Role == "Admin");
-    }
     public async Task AddUserAsync(User user)
     {
         await context.AddAsync(user);

@@ -20,4 +20,14 @@ public interface IEmployeeRepository
 
     Task<bool> ActivateEmployeeAsync(int id);
 
+
+    // employee api ke liye
+    Task<Employee?> GetEmployeeByUserIdAsync(int UaserId);
+
+    Task UpdateMyProfileAsync(Employee employee);
+
+    Task<User?> GetUserByIdAsync(int userId);
+
+    Task UpdateUserPasswordAsync(User user);
+
 }

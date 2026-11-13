@@ -183,4 +183,83 @@ public class EmployeeService : IEmployeeService
         return await repository.ActivateEmployeeAsync(id);
     }
 
+    public async Task<EmployeeProfileResponseDto?> GetMyProfileAsync(int userId)
+    {
+        var employee = await repository.GetEmployeeByUserIdAsync(userId);
+        if (employee == null || employee.User == null)
+        {
+            return null;
+        }
+
+        return new EmployeeProfileResponseDto
+        {
+            Id = employee.Id,
+            FullName = employee.User.FullName,
+            Email = employee.User.Email,
+            EmployeeCode = employee.EmployeeCode,
+            Designation = employee.Designation,
+            Department = employee.Department,
+            Salary = employee.Salary,
+            JoiningDate = employee.JoiningDate,
+            ExperienceYears = employee.ExperienceYears,
+            PhoneNumber = employee.PhoneNumber,
+            Address = employee.Address,
+            EmployeeType = employee.EmployeeType,
+            ManagerName = employee.ManagerName
+        };
+    }
+
+    public async Task<EmployeeProfileResponseDto?> UpdateMyProfileAsync(
+    int userId, UpdateEmployeeProfileDto request)
+    {
+        var employee = await repository.GetEmployeeByUserIdAsync(userId);
+        if (employee == null || employee.User == null)
+            return null;
+        employee.User.FullName = request.FullName;
+        employee.PhoneNumber = request.PhoneNumber;
+        employee.Address = request.Address;
+        employee.UpdatedAt = DateTime.UtcNow;
+
+        await repository.UpdateMyProfileAsync(employee);
+        return new EmployeeProfileResponseDto
+        {
+            Id = employee.Id,
+            FullName = employee.User.FullName,
+            Email = employee.User.Email,
+            EmployeeCode = employee.EmployeeCode,
+            Designation = employee.Designation,
+            Department = employee.Department,
+            Salary = employee.Salary,
+            JoiningDate = employee.JoiningDate,
+            ExperienceYears = employee.ExperienceYears,
+            PhoneNumber = employee.PhoneNumber,
+            Address = employee.Address,
+            EmployeeType = employee.EmployeeType,
+            ManagerName = employee.ManagerName
+        };
+    }
+
+    public async Task<string?> ChangePasswordAsync(int userId, ChangePasswordDto request)
+    {
+        var user = await repository.GetUserByIdAsync(userId);
+        if (user == null)
+        {
+            return "user not found";
+        }
+
+        var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.CurrentPassword);
+
+        if (result == PasswordVerificationResult.Failed)
+        {
+            return "Cureent password is incoreect";
+        }
+
+        user.PasswordHash = passwordHasher.HashPassword(user, request.NewPassword);
+
+        await repository.UpdateUserPasswordAsync(user);
+        return null;
+    }
+
+
 }
+

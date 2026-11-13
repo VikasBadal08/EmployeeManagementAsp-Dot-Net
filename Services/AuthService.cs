@@ -21,14 +21,6 @@ public class AuthService : IAuthService
 
     public async Task<RegisterResponseDto> RegisterAdminAsync(RegisterRequestDto request)
     {
-        if (await repository.AdminExistsAsync())
-        {
-            return new RegisterResponseDto
-            {
-                Success = false,
-                Message = "Admin registration is already completed."
-            };
-        }
 
         string email = request.Email.Trim().ToLowerInvariant();
         if (await repository.EmailExistsAsync(email))

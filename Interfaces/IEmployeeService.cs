@@ -16,4 +16,11 @@ public interface IEmployeeService
     Task<bool> PermanentDeleteEmployeeAsync(int id);
 
     Task<bool> ActivateEmployeeAsync(int id);
+
+    Task<EmployeeProfileResponseDto?> GetMyProfileAsync(int UserId);
+
+    Task<EmployeeProfileResponseDto?> UpdateMyProfileAsync(
+    int userId, UpdateEmployeeProfileDto request);
+
+    Task<string?> ChangePasswordAsync(int userId, ChangePasswordDto request);
 }

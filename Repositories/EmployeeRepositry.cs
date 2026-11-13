@@ -150,4 +150,27 @@ public class EmployeeRespository : IEmployeeRepository
             throw;
         }
     }
+
+    public async Task<Employee?> GetEmployeeByUserIdAsync(int userId)
+    {
+        return await context.employees.Include(e => e.User).FirstOrDefaultAsync(e => e.UserId == userId && e.User != null && e.User.IsActive);
+    }
+
+    public async Task UpdateMyProfileAsync(Employee employee)
+    {
+        await context.SaveChangesAsync();
+    }
+
+    public async Task<User?> GetUserByIdAsync(int userId)
+    {
+        return await context.users
+            .FirstOrDefaultAsync(u => u.Id == userId && u.IsActive);
+    }
+
+    public async Task UpdateUserPasswordAsync(User user)
+    {
+        await context.SaveChangesAsync();
+    }
+
+
 }
